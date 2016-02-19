@@ -1,6 +1,6 @@
-== "initial-exec" TLS variables and dlopen(3) ==
+# "initial-exec" TLS variables and dlopen(3)
 
-=== Description ===
+## Description
 
 This test program reproduces how Mesa's and NVIDIA's `libGL.so` use
 static TLS variables, using the "`initial-exec`" model.
@@ -12,19 +12,20 @@ is linked to `libGL.so`. `LD_PRELOAD`'ing `libGL.so` works around the
 crash. This test program is here to help understand the issue and fix
 it.
 
-=== How to build and test ===
+## How to build and test
 
-```sh
-make test
+```
+$ make test
 ```
 
 Two programs and a library are compiled:
-* `app-linked`, which is linked to `libfoo.so`;
+* `app-link`, which is linked to `libfoo.so`;
 * `app-dlopen`, who dlopen()'s `libfoo.so`;
 * `libfoo.so`, a simple library with a TLS variable.
 
 `app-linked` works fine and prints:
 ```
+$ ./app-link
 foo: 2016
 ```
 
