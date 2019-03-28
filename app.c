@@ -1,3 +1,4 @@
+#include <err.h>
 #include <stdio.h>
 
 #ifdef DLOPEN
@@ -18,13 +19,13 @@ main(int argc, char *argv[])
 
 	handle = dlopen("./libfoo.so", RTLD_LAZY);
 	if (handle == NULL) {
-		perror("dlopen");
+		warnx("dlopen: %s", dlerror());
 		return (1);
 	}
 
 	foo = dlsym(handle, "foo");
 	if (foo == NULL) {
-		perror("dlsym");
+		warnx("dlsym: %s", dlerror());
 		dlclose(handle);
 		return(1);
 	}
