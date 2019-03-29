@@ -9,6 +9,20 @@
 #include "libfoo.h"
 #endif
 
+#ifdef DLOPEN
+static void
+show_dlerror(const char *fn)
+{
+	const char *errstr;
+
+	errstr = dlerror();
+	if (errstr != NULL)
+		warnx("%s: %s", fn, errstr);
+	else
+		warnx("%s: dlerror() returned NULL, huh?", fn);
+}
+
+#endif
 int
 main(int argc, char *argv[])
 {
@@ -19,13 +33,13 @@ main(int argc, char *argv[])
 
 	handle = dlopen("./libfoo.so", RTLD_LAZY);
 	if (handle == NULL) {
-		warnx("dlopen: %s", dlerror());
+		show_dlerror("dlopen");
 		return (1);
 	}
 
 	foo = dlsym(handle, "foo");
 	if (foo == NULL) {
-		warnx("dlsym: %s", dlerror());
+		show_dlerror("dlsym");
 		dlclose(handle);
 		return(1);
 	}
